@@ -1,0 +1,10 @@
+com\application\EasyDoctor\Repository\VisitRepository.class
+com\application\EasyDoctor\Repository\PatientRepository.class
+com\application\EasyDoctor\model\Visit.class
+com\application\EasyDoctor\controller\PatientController.class
+com\application\EasyDoctor\model\PatientCategory.class
+com\application\EasyDoctor\Service\PatientService.class
+com\application\EasyDoctor\model\Patient.class
+com\application\EasyDoctor\App.class
+com\application\EasyDoctor\Repository\DoctorRepository.class
+com\application\EasyDoctor\model\Doctor.class
