@@ -57,13 +57,26 @@ public class PatientService {
 	}
 	
 	public List<Patient> getAllPatients() throws Exception{
+		log.info("Inside PatientService.getAllPatients");
 		List<Patient> patientsList = this.patientRepository.findAll();
 		return patientsList;
 	}
 	
 	public Patient getPatientById(String patientid) {
+		log.info("Inside PatientService.getPatientById");
 		Optional<Patient> patient = this.patientRepository.findById(patientid);
 		return patient.get();
+	}
+	
+	public void deletePatient(String patientid) throws Exception {
+		log.info("Inside PatientService.deletePatient");
+		Optional<Patient> patient = this.patientRepository.findById(patientid);
+		if (patient.isPresent()) {
+			this.patientRepository.deleteById(patientid);
+		} else {
+			log.info("Patient with given id does not exist : " + patientid);
+			throw new Exception("Patient with given id does not exist : " + patientid);
+		}
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.WebEndpointResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -93,8 +94,22 @@ public class PatientController {
 			getAllPatientsResponse = new WebEndpointResponse<>(getAllPatientsResponse, WebEndpointResponse.STATUS_OK);
 		} catch(Exception e) {
 			log.info("Excpetion in PatientController : {}", e.getMessage());
+			getAllPatientsResponse = new WebEndpointResponse<>(e.getMessage(), WebEndpointResponse.STATUS_INTERNAL_SERVER_ERROR);
 		}
 		return ResponseEntity.status(getAllPatientsResponse.getStatus()).body(getAllPatientsResponse);
+	}
+	
+	@DeleteMapping("/deletePatientById")
+	public ResponseEntity<WebEndpointResponse> deletePatientById(@RequestParam String patientId) {
+		WebEndpointResponse deletePatientresponse = null;
+		try {
+			this.patientService.deletePatient(patientId);
+			deletePatientresponse = new WebEndpointResponse<>("Patient Data deleted Successfully", WebEndpointResponse.STATUS_OK);
+		} catch (Exception e) {
+			log.info("Excpetion in PatientController : {}", e.getMessage());
+			deletePatientresponse = new WebEndpointResponse(e.getMessage(), WebEndpointResponse.STATUS_INTERNAL_SERVER_ERROR);
+		}
+		return ResponseEntity.status(deletePatientresponse.getStatus()).body(deletePatientresponse);
 	}
 	
 }
