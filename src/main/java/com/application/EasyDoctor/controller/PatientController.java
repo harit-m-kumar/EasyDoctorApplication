@@ -29,7 +29,8 @@ import lombok.extern.slf4j.Slf4j;
  * 1. addPatient
  * 2. getPatientById
  * 3. updatePatient
- * 4. deletePatient
+ * 4. listAllPatients
+ * 5. deletePatient
  */
 @RestController
 @RequestMapping("/patient")
