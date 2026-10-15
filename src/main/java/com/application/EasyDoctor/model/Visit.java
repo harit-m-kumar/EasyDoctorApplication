@@ -9,16 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Document("visit")
 public class Visit {
-
+	
 	@Id
-	@Field(name = "visit_id")
 	private String visitId;
 	
 	@Field(name = "patient_id")
@@ -38,5 +39,61 @@ public class Visit {
 	
 	@Field(name = "follow_up_date")
 	private List<String> followUpDate;
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getConsultedDoctorId() {
+		return consultedDoctorId;
+	}
+
+	public void setConsultedDoctorId(String consultedDoctorId) {
+		this.consultedDoctorId = consultedDoctorId;
+	}
+
+	public Date getDateAndTimeOfVisit() {
+		return dateAndTimeOfVisit;
+	}
+
+	public void setDateAndTimeOfVisit(Date dateAndTimeOfVisit) {
+		this.dateAndTimeOfVisit = dateAndTimeOfVisit;
+	}
+
+	public List<String> getSymptoms() {
+		return symptoms;
+	}
+
+	public void setSymptoms(List<String> symptoms) {
+		this.symptoms = symptoms;
+	}
+
+	public List<String> getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(List<String> diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public List<String> getFollowUpDate() {
+		return followUpDate;
+	}
+
+	public void setFollowUpDate(List<String> followUpDate) {
+		this.followUpDate = followUpDate;
+	}
 	
 }

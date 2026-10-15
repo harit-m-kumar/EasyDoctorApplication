@@ -15,7 +15,7 @@ public class DoctorService {
 
 	private static final Logger log = LoggerFactory.getLogger(DoctorService.class);
 	
-	public final DoctorRepository doctorRepository;
+	private final DoctorRepository doctorRepository;
 	
 	public DoctorService(DoctorRepository doctorRepository) {
 		this.doctorRepository = doctorRepository;
@@ -69,6 +69,17 @@ public class DoctorService {
 		log.info("Inside DoctorService.updateDoctor");
 		List<Doctor> doctorsList = this.doctorRepository.findAll();
 		return doctorsList;
+	}
+	
+	public void deleteDoctor(String doctorId) throws Exception {
+		log.info("Inside DoctorService.deleteDoctor");
+		Optional<Doctor> doctorOptional = this.doctorRepository.findById(doctorId);
+		if (doctorOptional.isPresent()) {
+			this.doctorRepository.deleteById(doctorId);
+		} else {
+			log.info("Doctor woth the given id does not exist : " + doctorId);
+			throw new Exception("Doctor woth the given id does not exist : " + doctorId);
+		}
 	}
 	
 }

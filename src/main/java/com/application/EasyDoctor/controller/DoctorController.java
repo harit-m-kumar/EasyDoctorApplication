@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.WebEndpointResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -88,9 +89,24 @@ public class DoctorController {
 			getAllDoctorsResponse = new WebEndpointResponse(doctorsList, WebEndpointResponse.STATUS_OK);
 		} catch(Exception e) {
 			log.info("Exception in Doctorcontroller.getAllDoctors : {}", e.getMessage());
-			getAllDoctorsResponse = new WebEndpointResponse<>("Exception in Doctorcontroller.getAllDoctors : " + e.getMessage(),
+			getAllDoctorsResponse = new WebEndpointResponse<>(e.getMessage(),
 					WebEndpointResponse.STATUS_INTERNAL_SERVER_ERROR);
 		}
 		return ResponseEntity.status(getAllDoctorsResponse.getStatus()).body(getAllDoctorsResponse);
 	}
+	
+	@DeleteMapping("/deleteDoctorById")
+	public ResponseEntity<WebEndpointResponse> deleteDoctorById(@RequestParam String doctorId) {
+		WebEndpointResponse deleteDoctorResponse = null;
+		try {
+			this.doctorService.deleteDoctor(doctorId);
+			deleteDoctorResponse = new WebEndpointResponse<>("Doctor deleted successfully", WebEndpointResponse.STATUS_OK);
+		} catch(Exception e) {
+			log.info("Exception in Doctorcontroller.deleteEDoctorById : {}", e.getMessage());
+			deleteDoctorResponse = new WebEndpointResponse<>(e.getMessage(), 
+					WebEndpointResponse.STATUS_INTERNAL_SERVER_ERROR);
+		}
+		return ResponseEntity.status(deleteDoctorResponse.getStatus()).body(deleteDoctorResponse);
+	}
+	
 }
