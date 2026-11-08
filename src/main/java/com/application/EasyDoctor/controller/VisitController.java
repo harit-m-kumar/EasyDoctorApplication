@@ -111,4 +111,18 @@ public class VisitController {
 		return ResponseEntity.status(deleteVisitResponse.getStatus()).body(deleteVisitResponse);
 	}
 	
+	
+	@GetMapping("/listAllVisitsByPatientDateDoctor")
+	public ResponseEntity<WebEndpointResponse> listAllVisitsByPatientDateDoctor(@RequestParam String doctorId, @RequestParam String patientId, 
+			@RequestParam String startDate, @RequestParam String endDate) {
+		WebEndpointResponse getListAllVisitsByPatientDateDoctor = null;
+		try {
+			List<Visit> visitsList = this.visitService.getListAllVisitsByPatientDateDoctor(doctorId, patientId, startDate, endDate);
+			getListAllVisitsByPatientDateDoctor = new WebEndpointResponse(visitsList, WebEndpointResponse.STATUS_OK);
+		} catch(Exception e) {
+			log.info("Exception in VisitsController.listAllVisitsByPatientDateDoctor : {}", e.getMessage());
+			getListAllVisitsByPatientDateDoctor = new WebEndpointResponse<>(e.getMessage(), WebEndpointResponse.STATUS_INTERNAL_SERVER_ERROR);
+		}
+		return ResponseEntity.status(getListAllVisitsByPatientDateDoctor.getStatus()).body(getListAllVisitsByPatientDateDoctor);
+	}
 }

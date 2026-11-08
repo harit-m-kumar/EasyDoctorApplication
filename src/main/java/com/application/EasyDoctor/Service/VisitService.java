@@ -1,15 +1,22 @@
 package com.application.EasyDoctor.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.application.EasyDoctor.Constants.CodingContsants;
 import com.application.EasyDoctor.Repository.VisitRepository;
 import com.application.EasyDoctor.model.Doctor;
 import com.application.EasyDoctor.model.Visit;
+import com.application.EasyDoctor.utils.DateTimeUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +27,9 @@ public class VisitService {
 	private static final Logger log = LoggerFactory.getLogger(VisitService.class);
 	
 	private final VisitRepository visitRepository;
+	
+    @Autowired
+    private MongoTemplate mongoTemplate;
 	
 	public VisitService(VisitRepository visitRepository) {
 		this.visitRepository = visitRepository;
@@ -94,6 +104,45 @@ public class VisitService {
 			log.info("Visit with the given id does not exist : " + visitId);
 			throw new Exception("Visit with the given id does not exist : " + visitId);
 		}
+	}
+	
+	private List<Visit> getFilteredListByOptionalQuerry(String doctorId, String patientId, Date startDate, Date endDate) {
+		List<Visit> filteredVisitorsList = null;
+		Query query = new Query();
+		if (patientId != null && !patientId.isBlank()) {
+			query.addCriteria(Criteria.where("patient_id").is(patientId));
+		} 
+		if (doctorId != null && !doctorId.isBlank()) {
+	        query.addCriteria(Criteria.where("consulted_doctor_id").is(doctorId));
+	    }
+		query.addCriteria(Criteria.where("date_of_visit").gte(startDate).lte(endDate));
+		filteredVisitorsList = this.mongoTemplate.find(query, Visit.class);
+		return filteredVisitorsList;
+	}
+	
+	public List<Visit> getListAllVisitsByPatientDateDoctor(String doctorId, String patientId, String startDate, String endDate) throws Exception {
+
+		log.info("Inside VisitService.getListAllVisitsByPatientDateDoctor");
+		List<Visit> filteredVisitorsList = null;
+		try {
+			Date startDateFormatted = DateTimeUtils.formatDateTimeForQuery(startDate, true);
+			Date endDateFormatted = DateTimeUtils.formatDateTimeForQuery(endDate, false);
+			log.debug("startDateObj={}", startDateFormatted);
+			log.debug("endDateObj={}", endDateFormatted);
+			
+			if ((patientId != CodingContsants.EMPTY_STRING) && (doctorId != CodingContsants.EMPTY_STRING) && 
+					(startDateFormatted != null) && (endDateFormatted != null )) { 
+				filteredVisitorsList = this.visitRepository.findByPatientIdAndDoctorIdAndVisitDateBetween
+					(patientId, doctorId, startDateFormatted, endDateFormatted);
+			} else {
+				filteredVisitorsList = this.getFilteredListByOptionalQuerry(patientId, doctorId, startDateFormatted, endDateFormatted);
+			}
+
+		} catch (Exception e) {
+			log.info("Exception occured while fetching visitors : " + e.getMessage());
+			throw new Exception("Exception occured while fetching visitors : " + e.getMessage());
+		}
+		return filteredVisitorsList;
 	}
 	
 }
