@@ -24,13 +24,13 @@ public class DoctorService {
 	public void addDoctor(Doctor doctor) {
 		log.info("Inside DoctorService.addDoctor");
 		Doctor newDoctor = new Doctor();
-		
+
 		newDoctor.setDoctorAddress(doctor.getDoctorAddress());
 		newDoctor.setDoctorName(doctor.getDoctorName());
 		newDoctor.setContactNumber(doctor.getContactNumber());
 		newDoctor.setQualificationsByYear(doctor.getQualificationsByYear());
 		newDoctor.setRegistrationId(doctor.getRegistrationId());
-		
+
 		Doctor addedDoctor = this.doctorRepository.save(newDoctor);
 		log.info("New Doctor added successfully with Doctor Id : {}", addedDoctor.getDoctorId());
 	}

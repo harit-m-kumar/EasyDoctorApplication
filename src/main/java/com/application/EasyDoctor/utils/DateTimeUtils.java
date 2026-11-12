@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import com.application.EasyDoctor.Constants.CodingContsants;
+
 public class DateTimeUtils {
 
 	public static Date formatDateTimeForQuery(String value, boolean isStartOfDay) {
 		Date dateObj = null;
-		LocalDate localDate = LocalDate.parse(value);
-		if (value != null) {
+		if ((value != null) && (value != CodingContsants.EMPTY_STRING)) {
+			LocalDate localDate = LocalDate.parse(value);
 			if (isStartOfDay) {
 				dateObj = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			} else {

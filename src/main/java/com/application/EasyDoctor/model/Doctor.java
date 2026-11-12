@@ -15,7 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Document("doctor")
 public class Doctor {
 
@@ -37,6 +36,18 @@ public class Doctor {
 	@Field(name = "registration_id")
 	private Integer registrationId;
 	
+	public Doctor(String doctorName, String doctorAddress, String contactNumber, Map<String, String> qualificationsByYear, Integer registrationId) {
+		this.doctorName = doctorName;
+		this.doctorAddress = doctorAddress;
+		this.contactNumber = contactNumber;
+		this.qualificationsByYear = qualificationsByYear;
+		this.registrationId = registrationId;
+	}
+	
+	public Doctor() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getDoctorId() {
 		return doctorId;
 	}

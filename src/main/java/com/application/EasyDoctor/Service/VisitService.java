@@ -106,7 +106,7 @@ public class VisitService {
 		}
 	}
 	
-	private List<Visit> getFilteredListByOptionalQuerry(String doctorId, String patientId, Date startDate, Date endDate) {
+	private List<Visit> getFilteredListByOptionalQuerry(String patientId, String doctorId, Date startDate, Date endDate) {
 		List<Visit> filteredVisitorsList = null;
 		Query query = new Query();
 		if (patientId != null && !patientId.isBlank()) {
@@ -115,7 +115,19 @@ public class VisitService {
 		if (doctorId != null && !doctorId.isBlank()) {
 	        query.addCriteria(Criteria.where("consulted_doctor_id").is(doctorId));
 	    }
-		query.addCriteria(Criteria.where("date_of_visit").gte(startDate).lte(endDate));
+
+		Criteria dateCriteria = Criteria.where("date_of_visit");
+		if (startDate != null) {
+		    dateCriteria.gte(startDate);
+		}
+		if (endDate != null) {
+		    dateCriteria.lte(endDate);
+		}
+
+		if (startDate != null || endDate != null) {
+		    query.addCriteria(dateCriteria);
+		}
+
 		filteredVisitorsList = this.mongoTemplate.find(query, Visit.class);
 		return filteredVisitorsList;
 	}
