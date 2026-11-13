@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.application.EasyDoctor.enums.Gender;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,9 @@ public class Doctor {
 	
 	@Field(name = "registration_id")
 	private Integer registrationId;
+	
+	@Field(name="gender")
+	private Gender gender;
 	
 	public Doctor(String doctorName, String doctorAddress, String contactNumber, Map<String, String> qualificationsByYear, Integer registrationId) {
 		this.doctorName = doctorName;
@@ -94,6 +99,14 @@ public class Doctor {
 
 	public void setRegistrationId(Integer registrationId) {
 		this.registrationId = registrationId;
+	}
+	
+	public Gender getGender() {
+		return this.gender;
+	}
+	
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 	
 }

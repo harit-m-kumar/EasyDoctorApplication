@@ -1,4 +1,4 @@
-package com.application.EasyDoctor.model;
+package com.application.EasyDoctor.enums;
 
 public enum PatientCategory {
 

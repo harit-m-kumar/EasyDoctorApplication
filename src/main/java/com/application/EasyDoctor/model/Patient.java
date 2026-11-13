@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.application.EasyDoctor.enums.Gender;
+import com.application.EasyDoctor.enums.PatientCategory;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +42,9 @@ public class Patient {
 	
 	@Field(name = "registration_date")
 	private Date registrationDate;
+	
+	@Field(name = "gender")
+	private Gender gender;
 	
 	public String getPatientId() {
 		return patientId;
@@ -105,6 +108,14 @@ public class Patient {
 
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
+	}
+	
+	public Gender getGender() {
+		return this.gender;
+	}
+	
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 
 }

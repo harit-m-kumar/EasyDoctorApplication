@@ -2,16 +2,11 @@ package com.application.EasyDoctor.config;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.application.EasyDoctor.Repository.DoctorRepository;
 import com.application.EasyDoctor.Repository.PatientRepository;
-import com.application.EasyDoctor.model.Doctor;
 import com.application.EasyDoctor.model.Patient;
-import com.application.EasyDoctor.model.PatientCategory;
-
+import com.application.EasyDoctor.enums.PatientCategory;
 import io.mongock.api.annotations.ChangeUnit;
 import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;
